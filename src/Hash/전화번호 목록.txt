@@ -1,0 +1,43 @@
+일반 반복문만 사용한 코드
+(효율성에서 시간 초과로 실패!)
+import java.util.*;
+
+class Solution {
+    public boolean solution(String[] phone_book) {
+        boolean answer = true;
+        for(String s : phone_book){
+            for(String s2 : phone_book){
+                if(s.equals(s2)){
+                    continue;
+                }else if(s2.startsWith(s)){
+                    answer = false;
+                    break;
+                }
+            }
+        }
+        return answer;
+    }
+}
+
+해시 사용한 코드
+import java.util.*;
+
+class Solution {
+    public boolean solution(String[] phone_book) {
+        boolean answer = true;
+        Map<String, Integer> map = new HashMap<>();
+        for(String s : phone_book){
+            map.put(s,0);
+        }
+        for(int i=0; i<map.size(); i++){
+            for(int j=0; j<phone_book[i].length(); j++){
+                if(map.containsKey(phone_book[i].substring(0,j))){
+                    answer = false;
+                    break;
+                }
+            }
+        }
+        
+        return answer;
+    }
+}
