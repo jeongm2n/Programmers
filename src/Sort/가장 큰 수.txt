@@ -1,0 +1,62 @@
+//아쉽게 틀린 코드
+class Solution {
+    public String solution(int[] numbers) {
+        String answer = "";
+        for(int i=0; i<numbers.length; i++){
+            int max = 1;
+            int idx = 0;
+            for(int j=i; j<numbers.length; j++){
+                int one = 0;
+                if(numbers[j]>=10){
+                    one = numbers[j]/10;
+                    if(max<one){
+                        max = one;
+                        idx = j;
+                    }
+                }else{
+                    if(max<numbers[j]){
+                        max = numbers[j];
+                        idx = j;
+                    }
+                }
+            }
+            if(idx!=0){
+                int tmp = numbers[i];
+                numbers[i] = numbers[idx];
+                numbers[idx] = tmp;
+            }
+        }
+        
+        for(int i : numbers){
+            answer += Integer.toString(i);
+        }
+        return answer;
+    }
+}
+
+
+//정답 코드
+import java.util.*;
+
+class Solution {
+    public String solution(int[] numbers) {
+        String answer = "";
+        String[] arr = new String[numbers.length];
+        
+        for(int i=0; i<numbers.length; i++){
+            arr[i] = Integer.toString(numbers[i]);    
+        }
+        
+        Arrays.sort(arr,(o1,o2)->(o2+o1).compareTo(o1+o2));
+        
+        for(String s : arr){
+            answer += s;
+        }
+        
+        if(arr[0].equals("0")){
+            answer = "0";
+        }
+        
+        return answer;
+    }
+}
