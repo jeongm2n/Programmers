@@ -1,0 +1,53 @@
+import java.io.*;
+import java.util.*;
+
+public class Test {
+    public static boolean search(Queue<Integer> q, int money){
+        int n = q.size();
+        int cnt = 0;
+        while(cnt<=n){
+            int i=q.poll();
+            if(money==i){
+                return true;
+            }
+            cnt++;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] input1 = (br.readLine()).split(" ");
+        int n = Integer.parseInt(input1[0]);
+        int m = Integer.parseInt(input1[1]);
+        Queue<Integer> q = new LinkedList<>();
+
+        for(int i=0; i<m; i++){
+            String[] input2 = (br.readLine()).split(" ");
+            int money = Integer.parseInt(input2[1]);
+
+            switch(input2[0]){
+                case "deposit":
+                    n+=money;
+                    break;
+                case "pay":
+                    if(n>money){
+                        n-=money;
+                    }
+                    break;
+                case "reservation":
+                    q.add(money);
+                    
+            }
+            while(true){
+                if(!q.isEmpty()){
+                    if(n>=q.peek()) n-=q.poll();
+                    else break;
+                }else{
+                    break;
+                }
+            }
+        }
+        System.out.println(n);
+    }
+}
