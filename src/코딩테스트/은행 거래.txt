@@ -2,19 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Test {
-    public static boolean search(Queue<Integer> q, int money){
-        int n = q.size();
-        int cnt = 0;
-        while(cnt<=n){
-            int i=q.poll();
-            if(money==i){
-                return true;
-            }
-            cnt++;
-        }
-        return false;
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] input1 = (br.readLine()).split(" ");
