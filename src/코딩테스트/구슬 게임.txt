@@ -1,0 +1,66 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+class Tree{
+    class Node{
+        private int val;
+        private int height;
+        private Node winNode;
+        private Node drawNode;
+        private Node loseNode;
+
+        public Node(int val, int height){
+            this.val = val;
+            this.height = height;
+        }
+    }
+    Node root;
+    public void makeTree(int n, int k, int sum){
+        root = makeNode(n,0,k,sum);
+    }
+    public Node makeNode(int n, int height, int k, int sum){
+        if(height>k) return null;
+        else if(sum<n) return null;
+        else if(n<0) return null;
+        Node newNode = new Node(n,height);
+        if(n!=0){
+            newNode.winNode = makeNode(n+1,height+1, k, sum);
+            newNode.drawNode = makeNode(n, height+1, k, sum);
+            newNode.loseNode = makeNode(n-1, height+1, k, sum);
+        }
+        return newNode;
+    }
+
+    public int count(Node node, int sum) {
+        if (node == null) return 0;
+        int cnt = 0;
+        if (node.val == sum || node.val == 0) {
+            System.out.println("height: "+node.height+", value: "+node.val);
+            cnt = 1;
+        }else{
+            cnt += count(node.winNode, sum);
+            cnt += count(node.drawNode, sum);
+            cnt += count(node.loseNode, sum);
+        }
+        return cnt;
+    }
+}
+
+public class Test7 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] inputs = (br.readLine()).split(" ");
+
+        int n = Integer.parseInt(inputs[0]);
+        int m = Integer.parseInt(inputs[1]);
+        int k = Integer.parseInt(inputs[2]);
+
+        int sum = n+m;
+
+        Tree tree = new Tree();
+        tree.makeTree(n,k,sum);
+        int result = tree.count(tree.root,sum);
+        System.out.println(result);
+    }
+}
