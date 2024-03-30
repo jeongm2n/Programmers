@@ -1,0 +1,71 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+class Block{
+    private int w;
+    private int h;
+
+    public Block(int w, int h){
+        this.w = w;
+        this.h = h;
+    }
+
+    public int getW(){
+        return w;
+    }
+    public int getH(){
+        return h;
+    }
+}
+
+public class Test8 {
+    public static int count(ArrayList<Block> blocks, int x, int y, int n, int m){
+        //x는 x축 인덱스, y는 y축 인덱스 
+        //n이 2이면 x는 0,1,2가 있고 m이 3이면 y는 0,1,2,3 이 있습니다.
+        int cnt=0;
+        for(Block b : blocks){
+            if(x+b.getW()<=n && y+b.getH()<=m){
+                cnt = 1;
+                cnt += count(blocks,x+1,y,n,m);
+                cnt += count(blocks,x,y+1,n,m);
+            }
+        }
+        return cnt;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] inputs = (br.readLine()).split(" ");
+        int n = Integer.parseInt(inputs[0]);
+        int m = Integer.parseInt(inputs[1]);
+
+        ArrayList<Block> blocks = new ArrayList<>();
+        //1x1 블록은 모든 퍼즐판을 다 맞출 수 있고, 다른 3가지 블록을 채우고 남은 공간에 다 맞출 수 있으므로 배제합니다.
+        blocks.add(new Block(2,2));
+        blocks.add(new Block(4,2));
+        blocks.add(new Block(4,4));
+        
+        int measure = 0;
+        for(Block b : blocks){
+            if(b.getW()<=n && b.getH()<=m){
+                if((n*m)%(b.getW()*b.getH())==0){
+                    //만약 n,m이 블록의 w,h의 배수라면 ex)2x6짜리 퍼즐판이라면 2x2 블록을 3개 이어서 퍼즐판을 채울 수 있음
+                    //count 함수에서 이런 경우는 횟수를 세지 않아서 따로 추가해줬습니다. 
+                    measure++;
+                }
+            }
+        }
+        int result = 0;
+        if(n==2 && m==2){ //퍼즐판이 2x2인 경우 2x2 블록을 하나만 사용해서 채우는 경우가 count함수에서도, 위의 measure 에서도 횟수로 세어져서
+            //2x2 퍼즐판인 경우에만 count함수와 measure중 아무거나 하나만 선택해서 경우의 수 추가
+            result = count(blocks,0,0,n,m) + 1;
+        }else{ //다른 크기의 퍼즐판은 count함수와 measure 모두 추가
+            result = count(blocks,0,0,n,m) + measure + 1;
+        }
+        //1x1 블록으로만 모든 퍼즐판을 다 채우는 경우 때문에 1을 더해줌
+
+        System.out.println(result);
+    }   
+}
