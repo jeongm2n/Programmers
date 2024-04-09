@@ -1,0 +1,22 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int brown, int yellow) {
+        int[] answer = new int[2];
+        
+        int sum = brown + yellow;
+        //카펫의 세로길이는 항상 3보다는 큼(brown(1) + yellow(1) + brown(1))
+        for(int i=3; i<=sum; i++){
+            int w = sum/i;
+            if(w>=i){
+                if((w-2)*(i-2)==yellow){
+                    //노란색 격자의 넓이는 항상 카펫의 가로-2 * 세로-2 임
+                    answer[0] = w;
+                    answer[1] = i;
+                    break;
+                }
+            }
+        }
+        return answer;
+    }
+}
