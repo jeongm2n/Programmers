@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int n, int[] lost, int[] reserve) {
+        HashSet<Integer> losths = new HashSet<>();
+        HashSet<Integer> reservehs = new HashSet<>();
+        
+        for(int i : reserve){
+            reservehs.add(i);
+        }
+        
+        for(int i : lost){
+            if(reservehs.contains(i)){
+                reservehs.remove(i);
+            }else{
+                losths.add(i);
+            }
+        }
+        
+        for(int i : reservehs){
+            if(losths.contains(i-1)){
+                losths.remove(i-1);
+            }else if(losths.contains(i+1)){
+                losths.remove(i+1);
+            }
+        }
+        
+        return n-losths.size();
+    }
+}
