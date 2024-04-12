@@ -1,0 +1,19 @@
+class Solution {
+    private int cnt = 0;
+    public void dfs(int[] numbers, int idx, int target, int number){
+        if(idx==numbers.length){
+            if(number==target){
+                cnt++;
+            }
+            return;
+        }
+        dfs(numbers, idx+1, target, number+numbers[idx]);
+        dfs(numbers, idx+1, target, number-numbers[idx]);
+    }
+    
+    public int solution(int[] numbers, int target) {
+        dfs(numbers, 0, target, 0);
+        int answer = cnt;
+        return answer;
+    }
+}
